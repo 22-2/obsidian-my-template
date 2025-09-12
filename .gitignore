@@ -33,3 +33,4 @@ wheels/
 .venv
 
 repomix-output.md
+.env
