@@ -6,7 +6,7 @@ import { mount, unmount } from "svelte";
 export const VIEW_TYPE = "svelte-view";
 
 export class SvelteView extends ItemView {
-	component: App;
+	component: ReturnType<typeof mount> | null = null;
 	plugin: MyPlugin;
 
 	constructor(leaf: WorkspaceLeaf, plugin: MyPlugin) {
@@ -23,15 +23,13 @@ export class SvelteView extends ItemView {
 	}
 
 	async onOpen() {
-		this.component = mount(App, {
+		this.component = mount(Clock, {
 			target: this.contentEl,
-			props: {
-				plugin: this.plugin,
-			},
+			props: {},
 		});
 	}
 
 	async onClose() {
-		unmount(this.component);
+		this.component && unmount(this.component);
 	}
 }
