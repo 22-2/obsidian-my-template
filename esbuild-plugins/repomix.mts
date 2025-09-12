@@ -2,7 +2,7 @@ import esbuild from "esbuild";
 import { spawn } from "child_process";
 
 // ビルド完了時にrepomixを実行するesbuildプラグイン（改良版）
-const runRepomixPlugin: esbuild.Plugin = {
+export const runRepomixPlugin: esbuild.Plugin = {
 	name: "run-repomix-on-end",
 	setup(build) {
 		let debounceTimeout: NodeJS.Timeout;
