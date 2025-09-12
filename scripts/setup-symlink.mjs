@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import dotenv from "dotenv";
+import { readJsonFile } from "./utils.mjs";
 
 // Load environment variables from .env file
 dotenv.config();
@@ -14,7 +15,7 @@ if (!obsidianPluginsPath) {
 	process.exit(0);
 }
 
-const packageJson = JSON.parse(fs.readFileSync("package.json", "utf8"));
+const packageJson = readJsonFile("package.json");
 const pluginName = packageJson.name;
 
 if (!pluginName) {

@@ -1,5 +1,5 @@
 {
-	"name": "obsidian-sample-plugin",
+	"name": "obsidian-my-new-plugin",
 	"version": "1.0.0",
 	"description": "This is a sample plugin for Obsidian (https://obsidian.md)",
 	"main": "main.js",
@@ -9,7 +9,8 @@
 		"version": "node version-bump.mjs && git add manifest.json versions.json",
 		"check-types": "tsc -noEmit -skipLibCheck",
 		"repomix": "pnpm dlx repomix && code ./repomix-output.md",
-		"setup-symlink": "node scripts/setup-symlink.mjs"
+		"setup-symlink": "node scripts/setup-symlink.mjs",
+		"rename-plugin": "node scripts/rename-plugin.mjs"
 	},
 	"keywords": [],
 	"author": "",
