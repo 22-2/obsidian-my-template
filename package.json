@@ -15,14 +15,20 @@
 	"keywords": [],
 	"author": "",
 	"license": "MIT",
+	"dependencies": {
+		"svelte": "5.38.6"
+	},
 	"devDependencies": {
 		"@biomejs/biome": "2.2.4",
+		"@tsconfig/svelte": "5.0.5",
 		"@types/node": "24.3.1",
 		"builtin-modules": "5.0.0",
 		"dotenv": "^17.2.2",
 		"esbuild": "0.25.9",
+		"esbuild-svelte": "^0.9.3",
 		"obsidian": "^1.8.7",
 		"obsidian-typings": "4.50.0",
+		"svelte-preprocess": "^6.0.3",
 		"tslib": "^2.8.1",
 		"typescript": "5.9.2"
 	}

@@ -1,31 +1,32 @@
 {
+	"extends": "@tsconfig/svelte/tsconfig.json",
 	"compilerOptions": {
-		"baseUrl": ".",
-		"inlineSourceMap": true,
-		"inlineSources": true,
+		"target": "ESNext",
 		"module": "ESNext",
-		"target": "esnext",
-		"allowJs": true,
-		"noImplicitAny": true,
 		"moduleResolution": "node",
 		"esModuleInterop": true,
-		"allowSyntheticDefaultImports": true,
-		"forceConsistentCasingInFileNames": true,
 		"strict": true,
-		"skipLibCheck": true,
+		"noEmit": true,
+		"baseUrl": ".",
+		"verbatimModuleSyntax": true,
+		"downlevelIteration": true,
 		"resolveJsonModule": true,
-		"importHelpers": true,
-		"isolatedModules": true,
-		"strictNullChecks": true,
 		"lib": [
 			"DOM",
 			"ESNext"
 		],
 		"types": [
+			"node",
+			"svelte",
 			"obsidian-typings"
 		]
 	},
 	"include": [
-		"src/**/*.ts"
+		"src/**/*",
+		"src/*",
+		"**/*.ts"
+	],
+	"exclude": [
+		"node_modules/*"
 	]
 }
