@@ -1,5 +1,5 @@
 import { ItemView, WorkspaceLeaf } from "obsidian";
-import App from "./App.svelte";
+import AppComponent from "./App.svelte";
 import type MyPlugin from "../main";
 import { mount, unmount } from "svelte";
 
@@ -23,7 +23,7 @@ export class SvelteView extends ItemView {
 	}
 
 	async onOpen() {
-		this.component = mount(Clock, {
+		this.component = mount(AppComponent, {
 			target: this.contentEl,
 			props: {},
 		});
