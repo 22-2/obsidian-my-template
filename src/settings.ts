@@ -1,11 +1,11 @@
 import { PluginSettingTab, Setting } from "obsidian";
-import type MyPlugin from "./main";
+import type NobitPlugin from "./main";
 
-export interface MyPluginSettings {
-	logLevel: any;
+export interface NobitPluginSettings {
+	showLogger: boolean;
 }
-export class MyPluginSettingTab extends PluginSettingTab {
-	constructor(public plugin: MyPlugin) {
+export class NobitSettingTab extends PluginSettingTab {
+	constructor(public plugin: NobitPlugin) {
 		super(plugin.app, plugin);
 	}
 
@@ -19,9 +19,9 @@ export class MyPluginSettingTab extends PluginSettingTab {
 			.setDesc("Enable or disable debug messages")
 			.addToggle((toggle) => {
 				toggle
-					.setValue(this.plugin.settings.logLevel === "debug")
+					.setValue(this.plugin.settings.showLogger)
 					.onChange(async (val) => {
-						this.plugin.settings.logLevel = val ? "debug" : "info";
+						this.plugin.settings.showLogger = val;
 						await this.plugin.saveSettings();
 						this.plugin.initializeLogger();
 					});

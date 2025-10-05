@@ -1,28 +1,45 @@
+import log from "loglevel";
 import { Plugin } from "obsidian";
-import { DEFAULT_SETTINGS } from "./utils/constants";
-import { DirectLogger, Logger } from "./utils/logging";
-import { MyPluginSettings, MyPluginSettingTab } from "./settings";
+import { type NobitPluginSettings, NobitSettingTab } from "./settings";
+import { DEFAULT_SETTINGS, VIEW_TYPE_BROWSER } from "./utils/constants";
+import { toggleLoggerBy } from "./utils/logger";
+import { activateView } from "./utils/obsidian";
+import { BrowserView } from "./view/view";
 
-export default class MyPlugin extends Plugin {
-	settings: MyPluginSettings = DEFAULT_SETTINGS;
-	logger!: DirectLogger;
+export const logger = log.getLogger("nobit.main");
+
+export default class NobitPlugin extends Plugin {
+	settings: NobitPluginSettings = DEFAULT_SETTINGS;
 
 	async onload() {
 		await this.loadSettings();
-		this.addSettingTab(new MyPluginSettingTab(this));
-		this.initializeLogger();
+		this.configureLogging();
+		this.addSettingTab(new NobitSettingTab(this));
+
+		this.registerView(
+			VIEW_TYPE_BROWSER,
+			(leaf) => new BrowserView(leaf, this)
+		);
+
+		this.addRibbonIcon("dice", "Activate browser view", () => {
+			this.activateView();
+		});
+
+		logger.debug("Plugin loaded");
 	}
 
 	onunload() {
-		this.logger.debug("Plugin unloaded");
+		logger.debug("Plugin unloaded");
 	}
 
-	initializeLogger(): void {
-		this.logger = new DirectLogger({
-			level: this.settings.logLevel,
-			name: "MyPlugin",
+	private activateView() {
+		activateView(this.app.workspace.getLeaf.bind(this.app.workspace), {
+			type: VIEW_TYPE_BROWSER,
 		});
-		this.logger.debug("debug mode enabled");
+	}
+
+	private configureLogging(): void {
+		toggleLoggerBy(this.settings.showLogger ? "DEBUG" : "ERROR");
 	}
 
 	async loadSettings() {
