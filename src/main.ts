@@ -1,11 +1,12 @@
 import { Plugin } from "obsidian";
+import { ISettings, MyPluginSettingTab } from "./settings";
 import { DEFAULT_SETTINGS } from "./utils/constants";
 import { DirectLogger } from "./utils/logging";
-import { MyPluginSettings, MyPluginSettingTab } from "./settings";
 import { SvelteView, VIEW_TYPE } from "./view/view";
+import { toggleLoggerBy } from "./utils/logger";
 
 export default class MyPlugin extends Plugin {
-	settings: MyPluginSettings = DEFAULT_SETTINGS;
+	settings: ISettings = DEFAULT_SETTINGS;
 	logger!: DirectLogger;
 
 	async onload() {
@@ -46,12 +47,9 @@ export default class MyPlugin extends Plugin {
 		);
 	}
 
-	initializeLogger(): void {
-		this.logger = new DirectLogger({
-			level: this.settings.logLevel,
-			name: "MyPlugin",
-		});
-		this.logger.debug("debug mode enabled");
+
+	configureLogger(): void {
+		toggleLoggerBy(this.settings.showLogger ? "DEBUG" : "ERROR");
 	}
 
 	async loadSettings() {
