@@ -2,7 +2,8 @@ import { Plugin } from "obsidian";
 import { ISettings, MyPluginSettingTab } from "./settings";
 import { DEFAULT_SETTINGS } from "./utils/constants";
 import { toggleLoggerBy } from "./utils/logger";
-import { SvelteView, VIEW_TYPE } from "./view/view";
+import { VIEW_ICON, VIEW_TYPE } from "./view/constants";
+import { SvelteView } from "./view/view";
 
 export default class MyPlugin extends Plugin {
 	settings: ISettings = DEFAULT_SETTINGS;
@@ -14,7 +15,7 @@ export default class MyPlugin extends Plugin {
 
 		this.registerView(VIEW_TYPE, (leaf) => new SvelteView(leaf, this));
 
-		this.addRibbonIcon("dice", "Activate svelte view", () => {
+		this.addRibbonIcon(VIEW_ICON, "Activate svelte view", () => {
 			this.activateView();
 		});
 

@@ -1,9 +1,8 @@
 import { ItemView, WorkspaceLeaf } from "obsidian";
-import AppComponent from "./App.svelte";
-import type MyPlugin from "../main";
 import { mount, unmount } from "svelte";
-
-export const VIEW_TYPE = "svelte-view";
+import type MyPlugin from "../main";
+import AppComponent from "./App.svelte";
+import { VIEW_TYPE } from "./constants";
 
 export class SvelteView extends ItemView {
 	component: ReturnType<typeof mount> | null = null;
