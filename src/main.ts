@@ -1,18 +1,16 @@
 import { Plugin } from "obsidian";
 import { ISettings, MyPluginSettingTab } from "./settings";
 import { DEFAULT_SETTINGS } from "./utils/constants";
-import { DirectLogger } from "./utils/logging";
-import { SvelteView, VIEW_TYPE } from "./view/view";
 import { toggleLoggerBy } from "./utils/logger";
+import { SvelteView, VIEW_TYPE } from "./view/view";
 
 export default class MyPlugin extends Plugin {
 	settings: ISettings = DEFAULT_SETTINGS;
-	logger!: DirectLogger;
 
 	async onload() {
 		await this.loadSettings();
 		this.addSettingTab(new MyPluginSettingTab(this));
-		this.initializeLogger();
+		this.configureLogger();
 
 		this.registerView(VIEW_TYPE, (leaf) => new SvelteView(leaf, this));
 
