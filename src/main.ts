@@ -1,11 +1,15 @@
 import { Plugin } from "obsidian";
-import { DEFAULT_SETTINGS } from "./utils/constants";
-import { DirectLogger, Logger } from "./utils/logging";
-import { MyPluginSettings, MyPluginSettingTab } from "./settings";
+import log from "loglevel";
+import {
+	MyPluginSettings,
+	MyPluginSettingTab,
+	DEFAULT_SETTINGS,
+} from "./settings";
+
+const logger = log.getLogger("MyPlugin");
 
 export default class MyPlugin extends Plugin {
 	settings: MyPluginSettings = DEFAULT_SETTINGS;
-	logger!: DirectLogger;
 
 	async onload() {
 		await this.loadSettings();
@@ -18,22 +22,34 @@ export default class MyPlugin extends Plugin {
 	}
 
 	initializeLogger(): void {
-		this.logger = new DirectLogger({
-			level: this.settings.logLevel,
-			name: "MyPlugin",
-		});
-		this.logger.debug("debug mode enabled");
+		toggleLoggerBy(
+			this.settings.showLog ? "debug" : "warn",
+			(name) => name === "MyPlugin"
+		);
+		logger.debug("debug mode enabled");
 	}
 
 	async loadSettings() {
 		this.settings = Object.assign(
 			{},
 			DEFAULT_SETTINGS,
-			await this.loadData()
+			(await this.loadData()) as Partial<MyPluginSettings>
 		);
 	}
 
 	async saveSettings() {
 		await this.saveData(this.settings);
 	}
+}
+
+export function toggleLoggerBy(
+	level: log.LogLevelDesc,
+	filter: (name: string) => boolean = () => true
+): void {
+	Object.values(log.getLoggers())
+		// @ts-expect-error
+		.filter((logger) => filter(logger.name))
+		.forEach((logger) => {
+			logger.setLevel(level);
+		});
 }

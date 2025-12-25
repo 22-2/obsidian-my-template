@@ -2,8 +2,13 @@ import { PluginSettingTab, Setting } from "obsidian";
 import type MyPlugin from "./main";
 
 export interface MyPluginSettings {
-	logLevel: any;
+	showLog: boolean;
 }
+
+export const DEFAULT_SETTINGS: MyPluginSettings = {
+	showLog: false,
+};
+
 export class MyPluginSettingTab extends PluginSettingTab {
 	constructor(public plugin: MyPlugin) {
 		super(plugin.app, plugin);
@@ -19,9 +24,9 @@ export class MyPluginSettingTab extends PluginSettingTab {
 			.setDesc("Enable or disable debug messages")
 			.addToggle((toggle) => {
 				toggle
-					.setValue(this.plugin.settings.logLevel === "debug")
+					.setValue(this.plugin.settings.showLog)
 					.onChange(async (val) => {
-						this.plugin.settings.logLevel = val ? "debug" : "info";
+						this.plugin.settings.showLog = val;
 						await this.plugin.saveSettings();
 						this.plugin.initializeLogger();
 					});
