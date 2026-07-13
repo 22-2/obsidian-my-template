@@ -1,7 +1,7 @@
 import { obsidianCopyVite } from "@22-2/obsidian-copy-bundler-plugin";
 import { builtinModules } from "module";
 import path from "path";
-import { defineConfig, type UserConfig } from "vite";
+import { defineConfig, type UserConfig } from "vite-plus";
 
 export default defineConfig(async ({ mode }) => {
 	const { resolve } = path;
