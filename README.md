@@ -29,6 +29,25 @@ Quick starting guide for new plugin devs:
 - Enable plugin in settings window.
 - For updates to the Obsidian API run `pnpm update` in the command line under your repo folder.
 
+## Creating a plugin from this template
+
+If this repository is configured as a GitHub template repository, create a new repository and clone it with GitHub CLI:
+
+```bash
+gh repo create my-plugin --public --template 22-2/obsidian-my-template --clone
+cd my-plugin
+pnpm install
+```
+
+For a local copy without GitHub repository creation, use `giget`:
+
+```bash
+pnpm dlx giget@latest gh:22-2/obsidian-my-template my-plugin --install
+cd my-plugin
+```
+
+`giget` copies the template but does not rename the plugin ID or project name. If interactive replacement of those values becomes necessary, a separate Hygen generator layer is a better fit than keeping `_templates` in every generated plugin.
+
 ## Releasing new releases
 
 `release-it` updates the package and Obsidian manifest versions, builds the plugin, and uploads the build output to a GitHub Release:
@@ -45,6 +64,17 @@ The opt-in command updates only the affected version entry in `versions.json`, p
 `@release-it/conventional-changelog` recommends the release bump from Conventional Commits and updates [`CHANGELOG.md`](CHANGELOG.md). Use commit prefixes such as `feat:`, `fix:`, or `docs:` so the generated release notes stay organized.
 
 Set `GITHUB_TOKEN` for an automated GitHub API release. Without it, release-it prepares a GitHub release URL for the final browser-assisted step. For CI, use `pnpm release --ci`.
+
+## CI checks
+
+Pull requests and pushes to `main` run the following checks in GitHub Actions:
+
+- `vp check`
+- `vp test`
+- `vp build`
+- `pnpm verify-build`
+
+The workflow fetches the complete Git history so Conventional Changelog can calculate the recommended release bump. The tracked `.npmrc` intentionally contains no registry token; configure private-package authentication in the user-level npm configuration or GitHub Actions secrets.
 
 ## Settings API sample
 
@@ -75,6 +105,8 @@ Set `GITHUB_TOKEN` for an automated GitHub API release. Without it, release-it p
 
 - Run `pnpm lint` for Oxlint, including the [Obsidian plugin guidelines](https://github.com/obsidianmd/eslint-plugin).
 - Run `pnpm check-types` for formatting, linting, and TypeScript checks together.
+- Run `pnpm test` for template release-invariant tests.
+- Run `pnpm verify-build` after `pnpm build` to validate release assets.
 
 ## Funding URL
 
