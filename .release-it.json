@@ -1,0 +1,30 @@
+{
+	"$schema": "https://unpkg.com/release-it@21/schema/release-it.json",
+	"npm": {
+		"publish": false
+	},
+	"plugins": {
+		"@release-it/bumper": {
+			"in": "manifest.json",
+			"out": "manifest.json"
+		},
+		"@release-it/conventional-changelog": {
+			"infile": "CHANGELOG.md",
+			"preset": {
+				"name": "conventionalcommits"
+			}
+		}
+	},
+	"git": {
+		"commitMessage": "chore: release ${version}",
+		"tagName": "${version}"
+	},
+	"github": {
+		"release": true,
+		"assets": ["dist/main.js", "dist/manifest.json", "dist/styles.css"]
+	},
+	"hooks": {
+		"before:init": "pnpm check-types",
+		"after:bump": "pnpm build"
+	}
+}
