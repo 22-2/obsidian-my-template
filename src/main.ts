@@ -1,10 +1,8 @@
 import { Plugin } from "obsidian";
 import log, { LogLevels } from "consola";
-import {
-	type MyPluginSettings,
-	MyPluginSettingTab,
-	DEFAULT_SETTINGS,
-} from "./settings";
+// Import the stylesheet so Vite emits it beside main.js for GitHub Releases.
+import "../styles.css";
+import { type MyPluginSettings, MyPluginSettingTab, DEFAULT_SETTINGS } from "./settings";
 
 const logger = log.withTag("MyPlugin");
 
@@ -27,11 +25,9 @@ export default class MyPlugin extends Plugin {
 	}
 
 	async loadSettings() {
-		this.settings = Object.assign(
-			{},
-			DEFAULT_SETTINGS,
-			(await this.loadData()) as Partial<MyPluginSettings>
-		);
+		// Merge defaults so settings added in a later template revision remain usable.
+		const savedSettings = (await this.loadData()) as Partial<MyPluginSettings> | null;
+		this.settings = { ...DEFAULT_SETTINGS, ...savedSettings };
 	}
 
 	async saveSettings() {

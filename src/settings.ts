@@ -1,4 +1,4 @@
-import { PluginSettingTab, Setting } from "obsidian";
+import { PluginSettingTab, type SettingDefinitionItem } from "obsidian";
 import type MyPlugin from "./main";
 
 export interface MyPluginSettings {
@@ -14,22 +14,27 @@ export class MyPluginSettingTab extends PluginSettingTab {
 		super(plugin.app, plugin);
 	}
 
-	display(): void {
-		this.containerEl.empty();
-
-		new Setting(this.containerEl).setName("Plugin Settings").setHeading();
-
-		new Setting(this.containerEl)
-			.setName("Show Debug Messages")
-			.setDesc("Enable or disable debug messages")
-			.addToggle((toggle) => {
-				toggle
-					.setValue(this.plugin.settings.showLog)
-					.onChange(async (val) => {
-						this.plugin.settings.showLog = val;
-						await this.plugin.saveSettings();
-						this.plugin.initializeLogger();
+	// Declarative settings keep this tab searchable and let Obsidian manage its
+	// rendering lifecycle. See the official migration and settings references:
+	// https://docs.obsidian.md/plugins/guides/migrate-declarative-settings
+	// https://docs.obsidian.md/Plugins/User+interface/Settings
+	getSettingDefinitions(): SettingDefinitionItem[] {
+		return [
+			{
+				name: "Show debug messages",
+				desc: "Enable or disable debug messages.",
+				// A render callback is needed here because changing the setting also
+				// changes the logger level, which is a side effect beyond persistence.
+				render: (setting) => {
+					setting.addToggle((toggle) => {
+						toggle.setValue(this.plugin.settings.showLog).onChange(async (value) => {
+							this.plugin.settings.showLog = value;
+							this.plugin.initializeLogger();
+							await this.plugin.saveSettings();
+						});
 					});
-			});
+				},
+			},
+		];
 	}
 }
