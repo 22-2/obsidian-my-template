@@ -12,5 +12,6 @@ peerDependencyRules:
         - vite
         - vitest
     allowedVersions:
+        obsidian: "*"
         vite: "*"
         vitest: "*"
