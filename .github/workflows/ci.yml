@@ -1,0 +1,34 @@
+name: CI
+
+on:
+    pull_request:
+    push:
+        branches: [main]
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+concurrency:
+    group: ci-${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+jobs:
+    validate:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v6
+              with:
+                  # Conventional Changelog needs the complete history to calculate bumps.
+                  fetch-depth: 0
+
+            - uses: voidzero-dev/setup-vp@v1
+              with:
+                  node-version: "24"
+                  cache: true
+
+            - run: vp install --frozen-lockfile
+            - run: vp check
+            - run: vp test
+            - run: vp build
+            - run: pnpm verify-build

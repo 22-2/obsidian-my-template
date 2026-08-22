@@ -2,6 +2,6 @@
 	"$schema": "https://unpkg.com/release-it@21/schema/release-it.json",
 	"extends": "./.release-it.json",
 	"hooks": {
-		"after:bump": ["node scripts/update-versions.mjs ${version}", "pnpm build"]
+		"after:bump": ["node scripts/update-versions.mjs ${version}"]
 	}
 }

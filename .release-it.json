@@ -25,6 +25,6 @@
 	},
 	"hooks": {
 		"before:init": "pnpm check-types",
-		"after:bump": "pnpm build"
+		"after:bump": ["pnpm build", "pnpm verify-build"]
 	}
 }

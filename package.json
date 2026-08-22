@@ -13,6 +13,8 @@
 		"release:with-versions": "release-it --config .release-it.with-versions.json",
 		"fmt": "vp fmt",
 		"lint": "vp lint",
+		"test": "vp test",
+		"verify-build": "node scripts/verify-build.mjs",
 		"check-types": "vp check",
 		"prepare": "vp config"
 	},
