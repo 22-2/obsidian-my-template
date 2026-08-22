@@ -9,7 +9,10 @@
 	"scripts": {
 		"dev": "vp dev",
 		"build": "vp build",
-		"version": "node version-bump.mjs && git add manifest.json versions.json",
+		"release": "release-it",
+		"release:with-versions": "release-it --config .release-it.with-versions.json",
+		"fmt": "vp fmt",
+		"lint": "vp lint",
 		"check-types": "vp check",
 		"prepare": "vp config"
 	},
@@ -19,11 +22,26 @@
 	"devDependencies": {
 		"@22-2/obsidian-copy-bundler-plugin": "1.0.2",
 		"@obsidian-typings/obsidian-public-latest": "^6.20.0",
+		"@release-it/bumper": "^8.0.0",
+		"@release-it/conventional-changelog": "^12.0.0",
 		"@types/node": "26.1.0",
+		"eslint-plugin-obsidianmd": "^0.4.1",
+		"jsonc-parser": "^3.3.1",
 		"obsidian": "^1.13.1",
+		"release-it": "^21.0.2",
 		"typescript": "npm:@typescript/typescript6@6.0.2",
 		"vite": "catalog:",
 		"vite-plus": "catalog:",
 		"vitest": "catalog:"
+	},
+	"devEngines": {
+		"packageManager": {
+			"name": "pnpm",
+			"version": "11.22.0",
+			"onFail": "download"
+		}
+	},
+	"engines": {
+		"node": "^22.21.0 || >=24.0.0"
 	}
 }
