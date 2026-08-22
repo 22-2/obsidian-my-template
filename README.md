@@ -44,9 +44,20 @@ For a local copy without GitHub repository creation, use `giget`:
 ```bash
 pnpm dlx giget@latest gh:22-2/obsidian-my-template my-plugin --install
 cd my-plugin
+pnpm setup -- --name "My Plugin" --id my-plugin
 ```
 
-`giget` copies the template but does not rename the plugin ID or project name. If interactive replacement of those values becomes necessary, a separate Hygen generator layer is a better fit than keeping `_templates` in every generated plugin.
+The setup command keeps the standard Obsidian file names and initializes their
+project-specific contents:
+
+- `manifest.json`: plugin ID and display name
+- `package.json`: npm package name (`obsidian-<plugin-id>`)
+- `src/main.ts` and `src/settings.ts`: plugin class, settings type, and settings tab identifiers
+
+The plugin ID is derived from the display name unless `--id` is supplied. A
+separate Hygen generator package can wrap this flow later if a single
+interactive command is needed; keeping `_templates` in this repository would
+otherwise copy generator internals into every plugin.
 
 ## Releasing new releases
 
