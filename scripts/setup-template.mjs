@@ -20,6 +20,11 @@ await updateJsonField(manifestPath, ["name"], answers.displayName, options.dryRu
 await updateJsonField(packagePath, ["name"], answers.packageName, options.dryRun);
 
 const identifierReplacements = [
+	// The template ships with MyBrowserLikeHistory* identifiers; also keep the
+	// legacy MyPlugin* mappings so older checkouts remain renamable.
+	["MyBrowserLikeHistorySettings", `${answers.className}Settings`],
+	["MyBrowserLikeHistorySettingTab", `${answers.className}SettingTab`],
+	["MyBrowserLikeHistory", answers.className],
 	["MyPluginSettings", `${answers.className}Settings`],
 	["MyPluginSettingTab", `${answers.className}SettingTab`],
 	["MyPlugin", answers.className],
