@@ -1,9 +1,9 @@
 allowBuilds:
     esbuild: true
 catalog:
-    vite: npm:@voidzero-dev/vite-plus-core@0.2.9
-    vitest: 4.1.10
-    vite-plus: 0.2.9
+    vite: npm:@voidzero-dev/vite-plus-core@1.0.0-rc.1
+    vitest: 5.0.2
+    vite-plus: 1.0.0-rc.1
 overrides:
     vite: "catalog:"
     vitest: "catalog:"
