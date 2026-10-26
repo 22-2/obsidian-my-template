@@ -156,7 +156,9 @@ async function updateJsonField(filePath, path, value, dryRun) {
 	console.log(`${dryRun ? "Would update" : "Updated"} ${basename(filePath)}.${path.join(".")}`);
 }
 
-function parseArguments(argumentsList) {
+function parseArguments(rawArguments) {
+	// pnpm versions differ in whether they forward the script argument separator.
+	const argumentsList = rawArguments[0] === "--" ? rawArguments.slice(1) : rawArguments;
 	const parsed = {};
 	for (let index = 0; index < argumentsList.length; index += 1) {
 		const argument = argumentsList[index];

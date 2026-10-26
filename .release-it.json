@@ -21,7 +21,7 @@
 	},
 	"github": {
 		"release": true,
-		"assets": ["dist/main.js", "dist/manifest.json", "dist/styles.css"]
+		"assets": ["main.js", "manifest.json", "styles.css"]
 	},
 	"hooks": {
 		"before:init": "pnpm check-types",

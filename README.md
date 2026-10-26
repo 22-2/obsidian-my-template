@@ -23,8 +23,8 @@ Quick starting guide for new plugin devs:
 - Make a copy of this repo as a template with the "Use this template" button (login to GitHub if you don't see it).
 - Clone your repo to a local development folder. For convenience, you can place this folder in your `.obsidian/plugins/your-plugin-name` folder.
 - Install NodeJS, then run `pnpm install` in the command line under your repo folder.
-- Run `pnpm dev` to compile your plugin from `main.ts` to `dist/main.js`.
-- Make changes to `main.ts` (or create new `.ts` files). Those changes should be automatically compiled into `dist/main.js`.
+- Run `pnpm dev` to compile your plugin from `main.ts` to `main.js`.
+- Make changes to `main.ts` (or create new `.ts` files). Those changes should be automatically compiled into `main.js`.
 - Reload Obsidian to load the new version of your plugin.
 - Enable plugin in settings window.
 - For updates to the Obsidian API run `pnpm update` in the command line under your repo folder.
@@ -44,7 +44,7 @@ For a local copy without GitHub repository creation, use `giget`:
 ```bash
 pnpm dlx giget@latest gh:22-2/obsidian-my-template my-plugin --install
 cd my-plugin
-pnpm setup -- --name "My Plugin" --id my-plugin
+pnpm run setup --name "My Plugin" --id my-plugin
 ```
 
 The setup command keeps the standard Obsidian file names and initializes their
@@ -53,6 +53,9 @@ project-specific contents:
 - `manifest.json`: plugin ID and display name
 - `package.json`: npm package name (`obsidian-<plugin-id>`)
 - `src/main.ts` and `src/settings.ts`: plugin class, settings type, and settings tab identifiers
+
+Use `pnpm run setup` explicitly: `pnpm setup` is pnpm's built-in environment
+setup command. The example above runs the template's initialization script.
 
 The plugin ID is derived from the display name unless `--id` is supplied. A
 separate Hygen generator package can wrap this flow later if a single
@@ -67,7 +70,10 @@ otherwise copy generator internals into every plugin.
 2. Run `pnpm release` and choose the next semantic version.
 3. Confirm the commit, tag, and GitHub Release prompts.
 
-The release tag intentionally has no `v` prefix because Obsidian looks for the GitHub Release whose tag matches the version in `manifest.json`. The uploaded assets are `dist/main.js`, `dist/manifest.json`, and `dist/styles.css`.
+The release tag intentionally has no `v` prefix because Obsidian looks for the GitHub Release whose tag matches the version in `manifest.json`. The uploaded assets are `main.js`, `manifest.json`, and `styles.css`.
+
+esbuild writes `main.js` to the repository root. `styles.css` and
+`manifest.json` are included directly from their source files.
 
 `pnpm release` leaves `versions.json` unchanged. When a release raises `minAppVersion` and must preserve a download path for older Obsidian versions, use `pnpm release:with-versions` instead.
 The opt-in command updates only the affected version entry in `versions.json`, preserving the file's existing indentation and line endings.
@@ -80,9 +86,9 @@ Set `GITHUB_TOKEN` for an automated GitHub API release. Without it, release-it p
 
 Pull requests and pushes to `main` run the following checks in GitHub Actions:
 
-- `vp check`
-- `vp test`
-- `vp build`
+- `pnpm check-types`
+- `pnpm test`
+- `pnpm build`
 - `pnpm verify-build`
 
 The workflow fetches the complete Git history so Conventional Changelog can calculate the recommended release bump. The tracked `.npmrc` intentionally contains no registry token; configure private-package authentication in the user-level npm configuration or GitHub Actions secrets.
@@ -104,19 +110,27 @@ The workflow fetches the complete Git history so Conventional Changelog can calc
 ## How to use
 
 - Clone this repo.
-- Make sure your Node.js version is 22.21.x or 24+ (`node --version`).
+- Make sure your Node.js version is 24 or newer (`node --version`).
 - `pnpm install` to install dependencies.
 - `pnpm dev` to start compilation in watch mode.
 
 ## Manually installing the plugin
 
-- After `pnpm build`, copy `dist/main.js`, `dist/styles.css`, and `dist/manifest.json` to your vault `VaultFolder/.obsidian/plugins/your-plugin-id/`.
+- After `pnpm build`, copy `main.js`, `styles.css`, and `manifest.json` to your vault `VaultFolder/.obsidian/plugins/your-plugin-id/`.
 
 ## Code quality
 
-- Run `pnpm lint` for Oxlint, including the [Obsidian plugin guidelines](https://github.com/obsidianmd/eslint-plugin).
-- Run `pnpm check-types` for formatting, linting, and TypeScript checks together.
-- Run `pnpm test` for template release-invariant tests.
+TypeScript is pinned to 6.0.3 because `typescript-eslint`, loaded by
+`eslint-plugin-obsidianmd`, rejects TypeScript 7's compiler API. Keep the pin until
+that dependency supports TypeScript 7; after dependency updates, run the checks
+below to catch compatibility issues before using the template.
+
+`.gitattributes` keeps text files in LF format on Windows as well as other
+platforms, matching `.editorconfig` and the formatter.
+
+- Run `pnpm lint` for ESLint with the [recommended Obsidian plugin rules](https://github.com/obsidianmd/eslint-plugin).
+- Run `pnpm check-types` for linting and TypeScript checks together.
+- Run `pnpm test` for template release-invariant tests with Vitest.
 - Run `pnpm verify-build` after `pnpm build` to validate release assets.
 
 ## Funding URL

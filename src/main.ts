@@ -1,8 +1,6 @@
 import { Plugin } from "obsidian";
-import log, { LogLevels } from "consola";
-// Import the stylesheet so Vite emits it beside main.js for GitHub Releases.
-import "../styles.css";
-import { type MyPluginSettings, MyPluginSettingTab, DEFAULT_SETTINGS } from "./settings";
+import log, { LogLevels } from "consola/basic";
+import { type MyPluginSettings, MyPluginSettingTab, DEFAULT_SETTINGS } from "src/settings";
 
 const logger = log.withTag("MyPlugin");
 
