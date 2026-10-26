@@ -15,6 +15,8 @@ export default defineConfig(
 		'tsconfig.json',
 		'scripts/**',
 		'tests/**',
+		'e2e/**',
+		'playwright.*.config.ts',
 	]),
 	{
 		languageOptions: {

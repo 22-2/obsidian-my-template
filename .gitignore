@@ -8,6 +8,12 @@
 # npm
 node_modules
 
+# Obsidian E2E toolkit assets and Playwright reports
+.obsidian-unpacked/
+obsidian-e2e-toolkit-assets/
+playwright-report/
+test-results/
+
 # Don't include the compiled main.js file in the repo.
 # They should be uploaded to GitHub releases instead.
 main.js

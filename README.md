@@ -131,6 +131,7 @@ platforms, matching `.editorconfig` and the formatter.
 - Run `pnpm lint` for ESLint with the [recommended Obsidian plugin rules](https://github.com/obsidianmd/eslint-plugin).
 - Run `pnpm check-types` for linting and TypeScript checks together.
 - Run `pnpm test` for template release-invariant tests with Vitest.
+- Run `pnpm test:e2e` on Windows to build the plugin and verify Obsidian can load it on an offstage desktop. It downloads the pinned `offstage-windows` CLI with `pnpm dlx`, so it is not a project dependency. CI skips this E2E smoke. The runner removes `ELECTRON_RUN_AS_NODE` only from the smoke process environment so Electron launches normally without changing your user or system environment.
 - Run `pnpm verify-build` after `pnpm build` to validate release assets.
 
 ## Funding URL

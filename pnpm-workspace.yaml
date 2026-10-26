@@ -1,2 +1,6 @@
 allowBuilds:
+    electron: true
     esbuild: true
+    obsidian-e2e-toolkit: true
+overrides:
+    electron: 41.0.3
